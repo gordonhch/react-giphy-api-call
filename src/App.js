@@ -33,7 +33,8 @@ class App extends Component {
         response.data.data.map((item, index) => {
           //console.log(offset + index);
           // imgArray.push({img: { [Number(index + offset)]: item.images.fixed_height.url } });
-          imgArray.push(item.images.fixed_height.url);
+          //imgArray.push(item.images.fixed_height.url);
+          imgArray.push(item);
           
         }
         );
@@ -44,9 +45,9 @@ class App extends Component {
 
   }
 
-  onClickMore = () => {
-    this.setState({ offset: this.state.offset + 10 }, () => this.handleSubmit());
-    
+  onClickMore = async () => {
+     this.setState({ offset: this.state.offset + 10 }, );
+    await this.handleSubmit();
     }
 
   render() {
@@ -87,9 +88,10 @@ const ImgRender = (props) => {
   //   iR[index] = <img src={imgArray[index].img[index]} height="200" alt={term} key={index} />;
   // });
   // return iR;
-  return imgArray.map((item, index) => (
-    <img src={item} height="200" alt={term} key={index} />
-  ))
+  return imgArray.map((item, index) => 
+    <a href={item.images.original.url} target="blank" key={index}>
+      <img src={item.images.fixed_height.url} height="200" alt={term}  />
+    </a>);
 }
 
 export default App;
