@@ -11,66 +11,85 @@ class App extends Component {
       term: "rgb",
       img: "",
       imgArray: [],
+      offset: 0,
     };
   }
 
   onChange = (event) => {
     this.setState({ term: event.target.value });
-  } 
+  }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit = () => {
+    
+    // if(event){event.preventDefault();}
     const api_key = "dc6zaTOxFJmzC";
-    const url = `http://api.giphy.com/v1/gifs/search?q=${this.state.term}&api_key=${api_key}&limit=10`;
+    let offset = this.state.offset;
+    let url = `http://api.giphy.com/v1/gifs/search?q=${this.state.term}&api_key=${api_key}&limit=10&offset=${offset}`;
     let imgArray = [];
     axios(url)
       .then(response => {
         //console.log(data);
-        response.data.data.map((key, index) => {
-          imgArray[index] =  {
-            
-            img: {
-              [index]: response.data.data[index].images.fixed_height.url
-            }
-          }
-
-          this.setState({ imgArray, term: "",})
+        console.log(response.data.data);
+        response.data.data.map((item, index) => {
+          //console.log(offset + index);
+          // imgArray.push({img: { [Number(index + offset)]: item.images.fixed_height.url } });
+          imgArray.push(item.images.fixed_height.url);
+          
         }
         );
+        this.setState({ imgArray: this.state.imgArray.concat(imgArray) })
+        
       })
       .catch(e => console.log('error', e));
 
   }
-  
+
+  onClickMore = () => {
+    this.setState({ offset: this.state.offset + 10 }, () => this.handleSubmit());
+    
+    }
+
   render() {
-    return (
-    <div className="App" >
-      <form onSubmit={this.handleSubmit}>
-        <input value={this.state.term} onChange={this.onChange} />
-        <button>Search!</button>
-      </form>
+    return <div className="App">
+        
+          <input value={this.state.term} onChange={this.onChange} />
+          <button onClick={this.handleSubmit}>Search!</button>
+        
         <div>
           <ul>
-            {this.state.imgArray.isEmpty ? "empty!" : <ImgRender imgArray={this.state.imgArray} term={this.state.term} />}
-              
+            {this.state.imgArray.length == 0 ? (
+              "empty"
+            ) : (
+              <ImgRender
+                imgArray={this.state.imgArray}
+                offset={this.state.offset}
+                term={this.state.term}
+              />
+            )}
           </ul>
         </div>
         <div>
-          {this.state.imgArray.isEmpty ? "" : ""}
+          {this.state.imgArray.length == 0 ? (
+            ""
+          ) : (
+            <button onClick={() => this.onClickMore()}>More</button>
+          )}
         </div>
-    </div>
-    );
+      </div>;
   }
 }
 
 const ImgRender = (props) => {
-  let {imgArray, term} = props;
-  let iR = [];
+  let { imgArray, term, offset } = props;
+  //let iR = [];
   //console.log(imgArray);
-  imgArray.map((key, index) => {
-    iR[index] = <img src={imgArray[index].img[index]} height="200" alt={term} />;
-  });
-  return iR;
+  // imgArray.map((key, index) => {
+  //   iR[index] = <img src={imgArray[index].img[index]} height="200" alt={term} key={index} />;
+  // });
+  // return iR;
+  return imgArray.map((item, index) => (
+    <img src={item} height="200" alt={term} key={index} />
+  ))
 }
 
 export default App;
