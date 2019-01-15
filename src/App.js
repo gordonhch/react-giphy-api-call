@@ -11,7 +11,7 @@ class App extends Component {
       term: "rgb",
       img: "",
       imgArray: [],
-      offset: 0
+      offset: 0,
     };
   }
 
@@ -50,6 +50,7 @@ class App extends Component {
     } 
 
   onClickSearch = () => {
+    this.setState({ offset: this.state.offset + 10 });
     this.handleSubmit();
   };
 
