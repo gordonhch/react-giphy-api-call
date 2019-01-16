@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import "./App.css";
 import axios from "axios";
 // import onChange from "./onChange";
+import "./tachyons.min.css";
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
 class App extends Component {
   constructor(props) {
