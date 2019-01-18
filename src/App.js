@@ -25,7 +25,6 @@ class App extends Component {
 
   onChange = event => {
     this.setState({ term: event.target.value });
-    
   };
 
   handleSubmit = async() => {
@@ -110,12 +109,8 @@ class ImgRender extends Component {
     super(props);
   }
 
-  handleClick = (e, data, target) => {
-    let {bitly_url} = data;
-    console.log(bitly_url);
-    window.open(bitly_url);
-    //console.log(target);
-    
+  handleClick = (e, data) => {
+    console.log(data);
   }
 
   render() {
@@ -133,7 +128,6 @@ class ImgRender extends Component {
               id="some_unique_identifier"
               name={item.name} 
               holdToDisplay={1000}
-              collect={()=>({bitly_url: item.bitly_url})}
             >
               <img
                 src={item.images.fixed_height.url}
@@ -142,23 +136,22 @@ class ImgRender extends Component {
                 style={{ color: "#18181C" }}
               />
             </ContextMenuTrigger>
-            
+            <ContextMenu id="some_unique_identifier">
+              <MenuItem
+                onClick={this.handleClick}
+                data={{ item: "item 1" }}
+              >
+                Menu Item 1
+              </MenuItem>
+              <MenuItem
+                onClick={this.handleClick}
+                data={{ item: "item 2" }}
+              >
+                Menu Item 2
+              </MenuItem>
+            </ContextMenu>
           </a>
         ))}
-      <ContextMenu id="some_unique_identifier">
-        <MenuItem
-          onClick={this.handleClick}
-          data={{ item: "item 1" }}
-        >
-          Open in Giphy.com
-              </MenuItem>
-        <MenuItem
-          onClick={this.handleClick}
-          data={{ item: "item 2" }}
-        >
-          Menu Item 2
-              </MenuItem>
-      </ContextMenu>
       </div>;
   }
   
