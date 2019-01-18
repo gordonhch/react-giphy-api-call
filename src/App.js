@@ -139,13 +139,13 @@ class ImgRender extends Component {
             <ContextMenu id="some_unique_identifier">
               <MenuItem
                 onClick={this.handleClick}
-                data={{ item: "item 1" }}
+                data={{ item: "menu item 1" }}
               >
                 Menu Item 1
               </MenuItem>
               <MenuItem
                 onClick={this.handleClick}
-                data={{ item: "item 2" }}
+                data={{ item: "menu item 2" }}
               >
                 Menu Item 2
               </MenuItem>
