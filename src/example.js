@@ -27,13 +27,13 @@ class App extends Component {
     this.setState({ term: event.target.value });
   };
 
-  handleSubmit = async() => {
+  handleSubmit = async () => {
     // if(event){event.preventDefault();}
     const api_key = "dc6zaTOxFJmzC";
     let offset = this.state.offset;
     let url = `http://api.giphy.com/v1/gifs/search?q=${
       this.state.term
-    }&api_key=${api_key}&limit=10&offset=${offset}`;
+      }&api_key=${api_key}&limit=10&offset=${offset}`;
 
     //axios w/promise
     // axios(url)
@@ -42,7 +42,7 @@ class App extends Component {
     //     this.setState({ imgArray: this.state.imgArray.concat(response.data.data) });
     //   })
     //   .catch(e => console.log("error", e));
-    
+
     //axios w/ await
     try {
       let response = await axios(url);
@@ -53,9 +53,9 @@ class App extends Component {
     } catch (e) {
       console.log("error", e);
     }
-    
 
-    } 
+
+  }
 
   onClickSearch = () => {
     this.setState({ offset: this.state.offset + 10 });
@@ -84,20 +84,20 @@ class App extends Component {
             {this.state.imgArray.length == 0 ? (
               "empty"
             ) : (
-              <ImgRender
-                imgArray={this.state.imgArray}
-                offset={this.state.offset}
-                term={this.state.term}
-              />
-            )}
+                <ImgRender
+                  imgArray={this.state.imgArray}
+                  offset={this.state.offset}
+                  term={this.state.term}
+                />
+              )}
           </ul>
         </div>
         <div>
           {this.state.imgArray.length == 0 ? (
             ""
           ) : (
-            <button onClick={() => this.onClickMore()}>More</button>
-          )}
+              <button onClick={() => this.onClickMore()}>More</button>
+            )}
         </div>
       </div>
     );
@@ -117,44 +117,47 @@ class ImgRender extends Component {
     let { imgArray, term, offset } = this.props;
     // console.log(typeof handleClick);
     return <div>
-        {imgArray.map((item, index) => (
-          <a
-            href={item.images.original.url}
-            target="blank"
-            key={index}
-            className="dib "
-          >
+      <h3>Custom Wrappers</h3>
+      <p>
+        This demo shows usage of customization. Instead of using <code>
+          div
+          </code>(s) by default, we are using <code>tr</code>(s)
+        </p>
+      <table className="pure-table pure-table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Fruit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {imgArray.map((item, i) => (
             <ContextMenuTrigger
-              id="some_unique_identifier"
-              name={item.name} 
+              renderTag="tr"
+              name={item.name}
+              id="m"
               holdToDisplay={1000}
+              key={i}
+            //collect={collect}
             >
-              <img
-                src={item.images.fixed_height.url}
-                height="200"
-                alt={term}
-                style={{ color: "#18181C" }}
-              />
+              <td>{i + 1}</td>
+              <td>{item.name}</td>
             </ContextMenuTrigger>
-            <ContextMenu id="some_unique_identifier">
-              <MenuItem
-                onClick={this.handleClick}
-                data={{ item: "item 1" }}
-              >
-                Menu Item 1
-              </MenuItem>
-              <MenuItem
-                onClick={this.handleClick}
-                data={{ item: "item 2" }}
-              >
-                Menu Item 2
-              </MenuItem>
-            </ContextMenu>
-          </a>
-        ))}
-      </div>;
+          ))}
+        </tbody>
+      </table>
+
+      <ContextMenu id="m">
+        <MenuItem onClick={this.handleClick} data={{ item: "item 1" }}>
+          Menu Item 1
+          </MenuItem>
+        <MenuItem onClick={this.handleClick} data={{ item: "item 2" }}>
+          Menu Item 2
+          </MenuItem>
+      </ContextMenu>
+    </div>;
   }
-  
+
 }
 
 export default App;
