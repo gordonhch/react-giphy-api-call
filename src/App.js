@@ -5,7 +5,7 @@ import axios from "axios";
 // import onChange from "./onChange";
 import "./tachyons.min.css";
 import "./contextMenuStyle.css";
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import { ContextMenu, MenuItem, ContextMenuTrigger, SubMenu } from "react-contextmenu";
 
 // function handleClick(e, data) {
 //   console.log(data.foo);
@@ -111,9 +111,16 @@ class ImgRender extends Component {
   }
 
   handleClick = (e, data, target) => {
-    let {bitly_url} = data;
-    console.log(bitly_url);
-    window.open(bitly_url);
+    let { action, bitly_url, embed_url, images} = data;
+    if (action=='giphy.com'){
+      console.log(bitly_url);
+      window.open(bitly_url);
+    }
+    else if (action=='embed'){
+      console.log(embed_url);
+      window.open(embed_url);
+    }
+    
     //console.log(target);
     
   }
@@ -131,9 +138,13 @@ class ImgRender extends Component {
           >
             <ContextMenuTrigger
               id="some_unique_identifier"
-              name={item.name} 
+              name={item.name}
               holdToDisplay={1000}
-              collect={()=>({bitly_url: item.bitly_url})}
+              collect={() => ({
+                bitly_url: item.bitly_url,
+                embed_url: item.embed_url,
+                images: item.images
+              })}
             >
               <img
                 src={item.images.fixed_height.url}
@@ -142,23 +153,131 @@ class ImgRender extends Component {
                 style={{ color: "#18181C" }}
               />
             </ContextMenuTrigger>
-            
           </a>
         ))}
-      <ContextMenu id="some_unique_identifier">
-        <MenuItem
-          onClick={this.handleClick}
-          data={{ item: "item 1" }}
-        >
-          Open in Giphy.com
+        <ContextMenu id="some_unique_identifier">
+          <MenuItem onClick={this.handleClick} data={{ action: "giphy.com" }}>
+            Giphy.com
+          </MenuItem>
+          <MenuItem onClick={this.handleClick} data={{ action: "embed" }}>
+            Embed link
+          </MenuItem>
+          <MenuItem divider/>
+          <SubMenu title="Image versions">
+            <MenuItem onClick={this.handleClick} data={{ action: "480w_still" }}>
+              480w_still
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "downsized" }}>
+              downsized
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "downsized_large" }}>
+              downsized_large
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "downsized_medium" }}>
+              downsized_medium
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "downsized_small" }}>
+              downsized_small
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "downsized_still" }}>
+              downsized_still
+            </MenuItem>
+            <SubMenu title="fixed_height">
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height", ext: "mp4" }}>
+                .mp4 version
               </MenuItem>
-        <MenuItem
-          onClick={this.handleClick}
-          data={{ item: "item 2" }}
-        >
-          Menu Item 2
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height", ext: "webm" }}>
+                .webm version
               </MenuItem>
-      </ContextMenu>
+            </SubMenu>
+            <SubMenu title="fixed_height_downsampled">
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_downsampled", ext: "gif" }}>
+                .gif version
+              </MenuItem>
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_downsampled", ext: "webm" }}>
+                .webm version
+              </MenuItem>
+            </SubMenu>
+            <SubMenu title="fixed_height_small">
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_small", ext: "mp4" }}>
+                .mp4 version
+              </MenuItem>
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_small", ext: "webm" }}>
+                .webm version
+              </MenuItem>
+            </SubMenu>
+
+            <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_small_still" }}>
+              fixed_height_small_still
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_still" }}>
+              fixed_height_still
+            </MenuItem>
+
+            <SubMenu title="fixed_width">
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width", ext: "mp4" }}>
+                .mp4 version
+              </MenuItem>
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width", ext: "webm" }}>
+                .webm version
+              </MenuItem>
+            </SubMenu>
+            <SubMenu title="fixed_width_downsampled">
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_downsampled", ext: "gif" }}>
+                .gif version
+              </MenuItem>
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_downsampled", ext: "webm" }}>
+                .webm version
+              </MenuItem>
+            </SubMenu>
+            <SubMenu title="fixed_width_small">
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_small", ext: "mp4" }}>
+                .mp4 version
+              </MenuItem>
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_small", ext: "webm" }}>
+                .webm version
+              </MenuItem>
+            </SubMenu>
+            <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_small_still" }}>
+              fixed_width_small_still
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_still" }}>
+              fixed_width_still
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "looping" }}>
+              looping
+            </MenuItem>
+            <SubMenu title="original">
+              <MenuItem onClick={this.handleClick} data={{ action: "original", ext: "mp4" }}>
+                original (mp4)
+              </MenuItem>
+              <MenuItem onClick={this.handleClick} data={{ action: "original_still" }}>
+                original_still
+              </MenuItem>
+            </SubMenu>
+            <SubMenu title="preview">
+              <MenuItem onClick={this.handleClick} data={{ action: "preview", ext: "mp4" }}>
+                preview (mp4)
+              </MenuItem>
+              <MenuItem onClick={this.handleClick} data={{ action: "preview_gif", ext: "gif" }}>
+                preview_gif
+              </MenuItem>
+              <MenuItem onClick={this.handleClick} data={{ action: "preview_webp", ext: "webp" }}>
+                preview_webp
+              </MenuItem>
+            </SubMenu>
+            <MenuItem divider />
+            <MenuItem onClick={this.handleClick} data={{ action: "item 2" }}>
+              Menu Item 2
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "item 2" }}>
+              Menu Item 2
+            </MenuItem>
+          </SubMenu>
+          <MenuItem onClick={this.handleClick} data={{ action: "item 2" }}>
+            Menu Item 2
+          </MenuItem>
+        </ContextMenu>
       </div>;
   }
   
