@@ -47,7 +47,7 @@ class App extends Component {
     //axios w/ await
     try {
       let response = await axios(url);
-      console.log(response.data.data);
+      //console.log(response.data.data);
       this.setState({
         imgArray: this.state.imgArray.concat(response.data.data)
       });
@@ -78,11 +78,13 @@ class App extends Component {
           minHeight: "100vh"
         }}
       >
-        <input value={this.state.term} onChange={this.onChange} />
-        <button onClick={() => this.onClickSearch()}>Search!</button>
+        <div className="pv4">
+          <input className="ph3 pv2 bw0 b--white" value={this.state.term} onChange={this.onChange} />
+          <button className="ph3 pv2 br0 bw0 white bg-dark-gray" onClick={() => this.onClickSearch()}>Search!</button>
+        </div>
         <div>
           <ul>
-            {this.state.imgArray.length == 0 ? (
+            {this.state.imgArray.length === 0 ? (
               "empty"
             ) : (
               <ImgRender
@@ -94,7 +96,7 @@ class App extends Component {
           </ul>
         </div>
         <div>
-          {this.state.imgArray.length == 0 ? (
+          {this.state.imgArray.length === 0 ? (
             ""
           ) : (
             <button onClick={() => this.onClickMore()}>More</button>
@@ -111,16 +113,53 @@ class ImgRender extends Component {
   }
 
   handleClick = (e, data, target) => {
-    let { action, bitly_url, embed_url, images} = data;
-    if (action=='giphy.com'){
+    let { action, bitly_url, embed_url, images, ext = ''} = data;
+
+    let actType1 = ["480w_still", "downsized", "downsized_large", "downsized_medium", 
+               "downsized_still", "fixed_height_small_still", 
+              "fixed_height_still", "fixed_width_small_still", "fixed_width_still", 
+              "looping", "original_still", 
+              "preview_gif", "preview_webp"];
+
+    let actType2 = ["downsized_small", "fixed_height", "fixed_height_downsampled", 
+                "fixed_height_small", "fixed_width", "fixed_width_downsampled", 
+                "fixed_width_small", "looping", "original",
+                "original_mp4", "preview",];
+    let supportedExt = ["url", "mp4", "webp",];
+    if (action==='giphy.com'){
       console.log(bitly_url);
       window.open(bitly_url);
     }
-    else if (action=='embed'){
+    else if (action==='embed'){
       console.log(embed_url);
       window.open(embed_url);
     }
-    
+    else if (actType1.indexOf(action) !== -1) {
+      console.log(images[action].url);
+      window.open(images[action].url);
+    }
+    else if (actType2.indexOf(action) !== -1) {
+      if(supportedExt.indexOf(ext) !== -1) {
+        console.log(images[action][ext]);
+        window.open(images[action][ext]);
+      }
+      // if (ext == "url") {
+      //   console.log(images[action].url);
+      //   window.open(images[action].url);
+      // }
+      // else if (ext == "mp4"){
+      //   console.log(images[action].mp4);
+      //   window.open(images[action].mp4);
+      // }
+      // else if (ext == "webp") {
+      //   console.log(images[action].webp);
+      //   window.open(images[action].webp);
+      // }
+      else {
+        console.log(`unsupported ext: ${ext}`);
+        console.error('ext unseen error');
+      }
+    }
     //console.log(target);
     
   }
@@ -155,18 +194,19 @@ class ImgRender extends Component {
             </ContextMenuTrigger>
           </a>
         ))}
-        <ContextMenu id="some_unique_identifier">
-          <MenuItem onClick={this.handleClick} data={{ action: "giphy.com" }}>
-            Giphy.com
+      <ContextMenu id="some_unique_identifier">
+        <MenuItem onClick={this.handleClick} data={{ action: "giphy.com" }}>
+          Giphy.com
+        </MenuItem>
+        <MenuItem onClick={this.handleClick} data={{ action: "embed" }}>
+          Embed link
+        </MenuItem>
+        <MenuItem divider />
+        <SubMenu title="Image versions">
+          <MenuItem onClick={this.handleClick} data={{ action: "480w_still" }}>
+            480w_still
           </MenuItem>
-          <MenuItem onClick={this.handleClick} data={{ action: "embed" }}>
-            Embed link
-          </MenuItem>
-          <MenuItem divider/>
-          <SubMenu title="Image versions">
-            <MenuItem onClick={this.handleClick} data={{ action: "480w_still" }}>
-              480w_still
-            </MenuItem>
+          <SubMenu title="downsized">
             <MenuItem onClick={this.handleClick} data={{ action: "downsized" }}>
               downsized
             </MenuItem>
@@ -176,34 +216,39 @@ class ImgRender extends Component {
             <MenuItem onClick={this.handleClick} data={{ action: "downsized_medium" }}>
               downsized_medium
             </MenuItem>
-            <MenuItem onClick={this.handleClick} data={{ action: "downsized_small" }}>
+            <MenuItem onClick={this.handleClick} data={{ action: "downsized_small", ext: "mp4" }}>
               downsized_small
             </MenuItem>
             <MenuItem onClick={this.handleClick} data={{ action: "downsized_still" }}>
               downsized_still
             </MenuItem>
+          </SubMenu>
+          <SubMenu title="fixed_height">
             <SubMenu title="fixed_height">
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height", ext: "url" }}>
+                .gif version
+              </MenuItem>
               <MenuItem onClick={this.handleClick} data={{ action: "fixed_height", ext: "mp4" }}>
                 .mp4 version
               </MenuItem>
-              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height", ext: "webm" }}>
-                .webm version
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height", ext: "webp" }}>
+                .webp version
               </MenuItem>
             </SubMenu>
             <SubMenu title="fixed_height_downsampled">
-              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_downsampled", ext: "gif" }}>
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_downsampled", ext: "url" }}>
                 .gif version
               </MenuItem>
-              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_downsampled", ext: "webm" }}>
-                .webm version
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_downsampled", ext: "webp" }}>
+                .webp version
               </MenuItem>
             </SubMenu>
             <SubMenu title="fixed_height_small">
               <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_small", ext: "mp4" }}>
                 .mp4 version
               </MenuItem>
-              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_small", ext: "webm" }}>
-                .webm version
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_small", ext: "webp" }}>
+                .webp version
               </MenuItem>
             </SubMenu>
 
@@ -213,29 +258,36 @@ class ImgRender extends Component {
             <MenuItem onClick={this.handleClick} data={{ action: "fixed_height_still" }}>
               fixed_height_still
             </MenuItem>
-
+          </SubMenu>
+          <SubMenu title="fixed_width">
             <SubMenu title="fixed_width">
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width", ext: "url" }}>
+                .gif version
+              </MenuItem>
               <MenuItem onClick={this.handleClick} data={{ action: "fixed_width", ext: "mp4" }}>
                 .mp4 version
               </MenuItem>
-              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width", ext: "webm" }}>
-                .webm version
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width", ext: "webp" }}>
+                .webp version
               </MenuItem>
             </SubMenu>
             <SubMenu title="fixed_width_downsampled">
-              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_downsampled", ext: "gif" }}>
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_downsampled", ext: "url" }}>
                 .gif version
               </MenuItem>
-              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_downsampled", ext: "webm" }}>
-                .webm version
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_downsampled", ext: "webp" }}>
+                .webp version
               </MenuItem>
             </SubMenu>
             <SubMenu title="fixed_width_small">
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_small", ext: "url" }}>
+                .gif version
+              </MenuItem>
               <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_small", ext: "mp4" }}>
                 .mp4 version
               </MenuItem>
-              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_small", ext: "webm" }}>
-                .webm version
+              <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_small", ext: "webp" }}>
+                .webp version
               </MenuItem>
             </SubMenu>
             <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_small_still" }}>
@@ -244,40 +296,46 @@ class ImgRender extends Component {
             <MenuItem onClick={this.handleClick} data={{ action: "fixed_width_still" }}>
               fixed_width_still
             </MenuItem>
-            <MenuItem onClick={this.handleClick} data={{ action: "looping" }}>
+            <MenuItem onClick={this.handleClick} data={{ action: "looping", ext: "mp4" }}>
               looping
             </MenuItem>
-            <SubMenu title="original">
-              <MenuItem onClick={this.handleClick} data={{ action: "original", ext: "mp4" }}>
-                original (mp4)
-              </MenuItem>
-              <MenuItem onClick={this.handleClick} data={{ action: "original_still" }}>
-                original_still
-              </MenuItem>
-            </SubMenu>
-            <SubMenu title="preview">
-              <MenuItem onClick={this.handleClick} data={{ action: "preview", ext: "mp4" }}>
-                preview (mp4)
-              </MenuItem>
-              <MenuItem onClick={this.handleClick} data={{ action: "preview_gif", ext: "gif" }}>
-                preview_gif
-              </MenuItem>
-              <MenuItem onClick={this.handleClick} data={{ action: "preview_webp", ext: "webp" }}>
-                preview_webp
-              </MenuItem>
-            </SubMenu>
-            <MenuItem divider />
-            <MenuItem onClick={this.handleClick} data={{ action: "item 2" }}>
-              Menu Item 2
+          </SubMenu>
+          <SubMenu title="original">
+            <MenuItem onClick={this.handleClick} data={{ action: "original", ext: "url" }}>
+              original (gif)
             </MenuItem>
-            <MenuItem onClick={this.handleClick} data={{ action: "item 2" }}>
-              Menu Item 2
+            <MenuItem onClick={this.handleClick} data={{ action: "original", ext: "mp4" }}>
+              original (mp4)
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "original", ext: "webp" }}>
+              original (webp)
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "original_mp4", ext: "mp4" }}>
+              original (mp4)
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "original_still" }}>
+              original_still
             </MenuItem>
           </SubMenu>
-          <MenuItem onClick={this.handleClick} data={{ action: "item 2" }}>
-            Menu Item 2
-          </MenuItem>
-        </ContextMenu>
+          <SubMenu title="preview">
+            <MenuItem onClick={this.handleClick} data={{ action: "preview", ext: "mp4" }}>
+              preview (mp4)
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "preview_gif" }}>
+              preview_gif
+            </MenuItem>
+            <MenuItem onClick={this.handleClick} data={{ action: "preview_webp" }}>
+              preview_webp
+            </MenuItem>
+          </SubMenu>
+          <MenuItem divider />
+          
+        </SubMenu>
+        <MenuItem divider />
+        <MenuItem onClick={this.handleClick} data={{ action: "about" }}>
+        Properties
+        </MenuItem>
+      </ContextMenu>
       </div>;
   }
   
