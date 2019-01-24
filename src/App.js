@@ -77,15 +77,17 @@ class App extends Component {
           width: "100%",
           minHeight: "100vh"
         }}
-      >
+      > <div className="pv3">
+        <div className="pa3 white  bg-animate "><h1 className="pa2 dib hover-bg-pink bg-animate">Utterly useless GIF version searcher</h1></div>
+      </div>
         <div className="pv4">
-          <input className="ph3 pv2 bw0 b--white" value={this.state.term} onChange={this.onChange} />
-          <button className="ph3 pv2 br0 bw0 white bg-dark-gray" onClick={() => this.onClickSearch()}>Search!</button>
+          <input className="ph3 pv2 ba bw0 b--white" value={this.state.term} onChange={this.onChange} />
+          <button className="ph3 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" onClick={() => this.onClickSearch()}>Search!</button>
         </div>
         <div>
           <ul>
             {this.state.imgArray.length === 0 ? (
-              "empty"
+              <p className="mid-gray pv6">no results</p>
             ) : (
               <ImgRender
                 imgArray={this.state.imgArray}
@@ -99,9 +101,19 @@ class App extends Component {
           {this.state.imgArray.length === 0 ? (
             ""
           ) : (
-            <button onClick={() => this.onClickMore()}>More</button>
+            <button className="ph3 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" 
+            onClick={() => this.onClickMore()}>
+              More
+            </button>
+
           )}
         </div>
+        <div className="pt3 pb6 mid-gray">
+        <p>Right click for more options.</p>
+        <p className="white">Powered by GIPHY.com</p>
+        <p>For testing purpose only</p>
+        </div>
+        
       </div>
     );
   }
