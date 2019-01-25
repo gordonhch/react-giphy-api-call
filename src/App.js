@@ -36,7 +36,7 @@ class App extends Component {
     // if(event){event.preventDefault();}
     const api_key = "dc6zaTOxFJmzC";
     let offset = this.state.offset;
-    let url = `http://api.giphy.com/v1/gifs/search?q=${
+    let url = `https://api.giphy.com/v1/gifs/search?q=${
       this.state.term
     }&api_key=${api_key}&limit=10&offset=${offset}`;
 
