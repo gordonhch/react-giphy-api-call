@@ -89,11 +89,16 @@ class App extends Component {
 
   navBtn = (text, nav) => {
     return(
-      <button className="ph5 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" 
+      <a href="#searchBox" className="ph5 pv2 ba br0 b--dark-gray no-underline white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" 
               onClick={() => this.onClickToPage(nav)}>
                 {text}
-              </button>
+              </a>
     )
+  }
+
+  formEnterRelay = (e) => {
+    e.preventDefault();
+    this.onClickSearch();
   }
 
   render() {
@@ -110,8 +115,11 @@ class App extends Component {
       </div>
       <div className="pa3"><video autoPlay loop src="https://media3.giphy.com/media/YWAiayVul0JLq/100.mp4?cid=e1bb72ff5c4ad5bf4d564e413694c2ea"/></div>
         <div className="pv4">
-          <input className="ph3 pv2 ba bw0 b--white" value={this.state.term} onChange={this.onChange} />
-          <button className="ph3 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" onClick={() => this.onClickSearch()}>Search!</button>
+          <form onSubmit={this.formEnterRelay}>
+            <input id="searchBox" className="ph3 pv2 ba bw0 b--white" value={this.state.term} onChange={this.onChange} />
+            
+            <button type="button" className="ph3 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" onClick={() => this.onClickSearch()}>Search!</button>
+          </form>
         </div>
         
         <div>
@@ -388,7 +396,7 @@ class ImgRender extends Component {
         </SubMenu>
         <MenuItem divider />
         <MenuItem onClick={this.handleClick} data={{ action: "about" }}>
-        Properties
+        Properties(WIP)
         </MenuItem>
       </ContextMenu>
       </div>;
