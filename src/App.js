@@ -89,7 +89,7 @@ class App extends Component {
 
   navBtn = (text, nav) => {
     return(
-      <a href="#searchBox" className="ph5 pv2 ba br0 b--dark-gray no-underline white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" 
+      <a href="#searchBox" className="ph5 pv2 ba br0 mh1 b--dark-gray no-underline white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" 
               onClick={() => this.onClickToPage(nav)}>
                 {text}
               </a>
@@ -116,7 +116,7 @@ class App extends Component {
       <div className="pa3"><video autoPlay loop src="https://media3.giphy.com/media/YWAiayVul0JLq/100.mp4?cid=e1bb72ff5c4ad5bf4d564e413694c2ea"/></div>
         <div className="pv4">
           <form onSubmit={this.formEnterRelay}>
-            <input id="searchBox" className="ph3 pv2 ba bw0 b--white" value={this.state.term} onChange={this.onChange} />
+            <input id="searchBox" className="ph3 pv2 ba br0 bw0 b--white" value={this.state.term} onChange={this.onChange} />
             
             <button type="button" className="ph3 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" onClick={() => this.onClickSearch()}>Search!</button>
           </form>
