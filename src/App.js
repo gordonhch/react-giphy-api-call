@@ -16,9 +16,13 @@ class App extends Component {
     super(props);
     this.state = {
       term: "rgb",
+      previousTerm: "",
       img: "",
       imgArray: [],
       offset: 0,
+      total_count: 0,
+      page: 1,
+      initialized: false,
     };
   }
 
@@ -48,8 +52,11 @@ class App extends Component {
     try {
       let response = await axios(url);
       //console.log(response.data.data);
+      console.log(response.data.pagination);
       this.setState({
-        imgArray: this.state.imgArray.concat(response.data.data)
+        //imgArray: this.state.imgArray.concat(response.data.data)
+        imgArray: response.data.data,
+        total_count: response.data.pagination.total_count,
       });
     } catch (e) {
       console.log("error", e);
@@ -58,15 +65,36 @@ class App extends Component {
 
     } 
 
-  onClickSearch = () => {
-    this.setState({ offset: this.state.offset + 10 });
-    this.handleSubmit();
+  onClickSearch = async() => {
+    if (this.state.previousTerm !== this.state.term) {
+      this.setState({ offset: 0 , previousTerm: this.state.term, imgArray: []});
+      await this.handleSubmit();
+
+      
+
+      if (!this.state.initialized) { this.setState({ initialized: true }) };
+
+    }
+
   };
 
   onClickMore = async () => {
-    this.setState({ offset: this.state.offset + 10 });
+    this.setState({ offset: this.state.offset + 0 }); 
     await this.handleSubmit();
   };
+  onClickToPage = async(p) => {
+    await this.setState({ offset: this.state.offset + 10*p , page:this.state.page + 1*p}); 
+    this.handleSubmit();
+  };
+
+  navBtn = (text, nav) => {
+    return(
+      <button className="ph5 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" 
+              onClick={() => this.onClickToPage(nav)}>
+                {text}
+              </button>
+    )
+  }
 
   render() {
     return (
@@ -77,17 +105,19 @@ class App extends Component {
           width: "100%",
           minHeight: "100vh"
         }}
-      > <div className="pv3">
+      > <div className="">
         <div className="pa3 white  bg-animate "><h1 className="pa2 dib hover-bg-pink bg-animate">Utterly useless GIF version searcher</h1></div>
       </div>
+      <div className="pa3"><video autoPlay loop src="https://media3.giphy.com/media/YWAiayVul0JLq/100.mp4?cid=e1bb72ff5c4ad5bf4d564e413694c2ea"/></div>
         <div className="pv4">
           <input className="ph3 pv2 ba bw0 b--white" value={this.state.term} onChange={this.onChange} />
           <button className="ph3 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" onClick={() => this.onClickSearch()}>Search!</button>
         </div>
+        
         <div>
           <ul>
             {this.state.imgArray.length === 0 ? (
-              <p className="mid-gray pv6">no results</p>
+              this.state.initialized ? <p className="mid-gray pv6">no results</p> : <p className="mid-gray pv6"></p>
             ) : (
               <ImgRender
                 imgArray={this.state.imgArray}
@@ -98,26 +128,39 @@ class App extends Component {
           </ul>
         </div>
         <div>
-          {this.state.imgArray.length === 0 ? (
-            ""
-          ) : (
-            <button className="ph3 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" 
-            onClick={() => this.onClickMore()}>
-              More
-            </button>
-
-          )}
+          {(this.state.imgArray.length === 0)
+            ? "" : this.state.page === 1 ? "" : this.navBtn('Back', -1)
+          }
+          {
+            this.state.imgArray.length === 0
+            ? "" : this.navBtn('Next', 1)
+          }
+        </div>
+        <div>
+          {this.state.initialized
+            ? <PageCounter total_count={this.state.total_count} page={this.state.page} />
+            : ""
+          }
         </div>
         <div className="pt3 pb6 mid-gray">
-        <p>Right click for more options.</p>
+        <p>right click on image for more options</p>
         <p className="white">Powered by GIPHY.com</p>
-        <p>For testing purpose only</p>
+        <p>for testing purpose only</p>
         </div>
         
       </div>
     );
   }
 }
+
+const PageCounter = (props) => {
+  console.log(props.page);
+  let {page, total_count} = props;
+  return(
+    <p className="white">Page {page} of {Math.ceil((total_count||0)/10)} in {total_count} images</p>
+  )
+}
+
 class ImgRender extends Component {
 
   constructor(props) {
@@ -352,5 +395,7 @@ class ImgRender extends Component {
   }
   
 }
+
+
 
 export default App;
