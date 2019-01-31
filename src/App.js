@@ -6,6 +6,7 @@ import "./tachyons.min.css";
 import "./contextMenuStyle.css";
 
 import ImgRender from "./ImgRender";
+import PageCounter from "./PageCounter";
 
 // function handleClick(e, data) {
 //   console.log(data.foo);
@@ -160,17 +161,5 @@ class App extends Component {
     );
   }
 }
-
-const PageCounter = (props) => {
-  console.log(props.page);
-  let {page, total_count} = props;
-  return(
-    <p className="white">Page {page} of {Math.ceil((total_count||0)/10)} in {total_count} images</p>
-  )
-}
-
-
-
-
 
 export default App;
