@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ContextMenu, MenuItem, ContextMenuTrigger, SubMenu } from "react-contextmenu";
 import ImgContextMenu from "./ImgContextMenu";
+import './ImgRender.css';
 
 class ImgRender extends Component {
 
@@ -65,13 +66,13 @@ class ImgRender extends Component {
     render() {
       let { imgArray, term, offset } = this.props;
       // console.log(typeof handleClick);
-      return <div>
+      return <div className="ImgRender">
           {imgArray.map((item, index) => (
             <a
               href={item.images.original.url}
               target="blank"
               key={index}
-              className="dib "
+              className=" dib"
             >
               <ContextMenuTrigger
                 id="some_unique_identifier"
@@ -92,7 +93,7 @@ class ImgRender extends Component {
               </ContextMenuTrigger>
             </a>
           ))}
-        {ImgContextMenu(this.handleClick)};
+          {ImgContextMenu(this.handleClick)};
         </div>;
     }
     

@@ -1,0 +1,51 @@
+.ImgRender {
+    /* background-color: white; */
+}
+@media screen and (max-width: 30em) {
+    .ImgRender > a.dib {
+    width: 50%;
+    height: 50%;
+    
+    }
+    div.react-contextmenu-wrapper {
+        max-height: 50vw;
+    }
+    div.react-contextmenu-wrapper > img {
+        height:auto;
+        max-height: 50vw;
+        width: auto;
+        max-width: 100%;
+    }
+}
+@media screen and (min-width: 30em) and (max-width: 45em) {
+    .ImgRender > a.dib {
+    width: 30%;
+    height: 30%;
+    
+    }
+    div.react-contextmenu-wrapper {
+        max-height: 30vw;
+    }
+    div.react-contextmenu-wrapper > img {
+        height:auto;
+        max-height: 30vw;
+        width: auto;
+        max-width: 100%;
+    }
+}
+@media screen and (min-width: 45em) and (max-width: 60em) {
+    .ImgRender > a.dib {
+    width: 25%;
+    height: 25%;
+    
+    }
+    div.react-contextmenu-wrapper {
+        max-height: 25vw;
+    }
+    div.react-contextmenu-wrapper > img {
+        height:auto;
+        max-height: 25vw;
+        width: auto;
+        max-width: 100%;
+    }
+}

@@ -27,10 +27,8 @@ class App extends Component {
     };
   }
 
-
   onChange = event => {
     this.setState({ term: event.target.value });
-    
   };
 
   handleSubmit = async() => {
@@ -62,21 +60,14 @@ class App extends Component {
     } catch (e) {
       console.log("error", e);
     }
-    
-
-    } 
+  } 
 
   onClickSearch = async() => {
     if (this.state.previousTerm !== this.state.term) {
       this.setState({ offset: 0 , previousTerm: this.state.term, imgArray: []});
       await this.handleSubmit();
-
-      
-
       if (!this.state.initialized) { this.setState({ initialized: true }) };
-
     }
-
   };
 
   onClickMore = async () => {
@@ -114,7 +105,7 @@ class App extends Component {
       > <div className="">
         <div className="pa3 white  bg-animate "><h1 className="pa2 dib hover-bg-pink bg-animate">Utterly useless GIF version searcher</h1></div>
       </div>
-      <div className="pa3"><video autoPlay loop src="https://media3.giphy.com/media/YWAiayVul0JLq/100.mp4?cid=e1bb72ff5c4ad5bf4d564e413694c2ea"/></div>
+      <div className="pa3"><img autoPlay loop src="https://media2.giphy.com/media/YWAiayVul0JLq/200w.gif?cid=e1bb72ff5c53fbdf6a35435132f2ab73"/></div>
         <div className="pv4">
           <form onSubmit={this.formEnterRelay}>
             <input id="searchBox" className="ph3 pv2 ba br0 bw0 b--white" value={this.state.term} onChange={this.onChange} />
@@ -124,11 +115,12 @@ class App extends Component {
         </div>
         
         <div>
-          <ul>
+          <ul className="ph0">
             {this.state.imgArray.length === 0 ? (
               this.state.initialized ? <p className="mid-gray pv6">no results</p> : <p className="mid-gray pv6"></p>
             ) : (
               <ImgRender
+                
                 imgArray={this.state.imgArray}
                 offset={this.state.offset}
                 term={this.state.term}
