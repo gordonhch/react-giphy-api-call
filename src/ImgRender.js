@@ -64,7 +64,7 @@ class ImgRender extends Component {
     
   
     render() {
-      let { imgArray, term, offset } = this.props;
+      let { imgArray, term, offset,loadComplete } = this.props;
       // console.log(typeof handleClick);
       return <div className="ImgRender">
           {imgArray.map((item, index) => (
@@ -89,6 +89,7 @@ class ImgRender extends Component {
                   height="200"
                   alt={term}
                   style={{ color: "#18181C" }}
+                  onLoad={loadComplete}
                 />
               </ContextMenuTrigger>
             </a>

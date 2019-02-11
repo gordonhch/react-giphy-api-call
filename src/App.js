@@ -5,8 +5,10 @@ import "./App.css";
 import "./tachyons.min.css";
 import "./contextMenuStyle.css";
 
+import ImgLoading from "./ImgLoading";
 import ImgRender from "./ImgRender";
 import PageCounter from "./PageCounter";
+
 
 // function handleClick(e, data) {
 //   console.log(data.foo);
@@ -23,6 +25,7 @@ class App extends Component {
       imgArray: [],
       offset: 0,
       total_count: 0,
+      loaded_count: 0,
       page: 1,
       
       initialized: false,
@@ -59,7 +62,7 @@ class App extends Component {
     //   .catch(e => console.log("error", e));
     
     //axios w/ await
-    this.loading(true);
+    
     try {
       let response = await axios(url);
       //console.log(response.data.data);
@@ -68,12 +71,13 @@ class App extends Component {
         //imgArray: this.state.imgArray.concat(response.data.data)
         imgArray: response.data.data,
         total_count: response.data.pagination.total_count,
+        loaded_count: 0,
       });
-      
+      this.loading(true);
     } catch (e) {
       console.log("error", e);
     }
-    this.loading(false);
+    
   } 
 
   onClickSearch = async() => {
@@ -107,7 +111,20 @@ class App extends Component {
     this.onClickSearch();
   }
 
+  
+
   render() {
+
+    if(
+      //if all loaded
+      (this.state.limit==this.state.loaded_count
+      //if all images available (<12) loaded
+      ||this.state.loaded_count==this.state.total_count%this.state.limit
+      //if no results
+      ||this.state.imgArray.length==0)
+      &&this.state.loading==true
+      ) {this.loading(false)}
+
     return (
       <div
         className="App"
@@ -130,8 +147,9 @@ class App extends Component {
         
         <div>
           <ul className="ph0">
+            
             {
-              this.state.loading ? (<div className="fixed w-100 pa5 bg-silver">LOADING</div>) : ("")
+              this.state.loading&&this.state.limit!=this.state.loaded_count ? (<ImgLoading/>) : ("")
             }
             { 
               
@@ -143,6 +161,7 @@ class App extends Component {
                 imgArray={this.state.imgArray}
                 offset={this.state.offset}
                 term={this.state.term}
+                loadComplete={()=>this.setState({loaded_count: this.state.loaded_count+1})}
               />
             )}
           </ul>
