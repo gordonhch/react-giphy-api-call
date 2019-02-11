@@ -16,6 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      limit: 12,
       term: "rgb",
       previousTerm: "",
       img: "",
@@ -23,7 +24,9 @@ class App extends Component {
       offset: 0,
       total_count: 0,
       page: 1,
+      
       initialized: false,
+      loading: false,
     };
   }
 
@@ -31,13 +34,21 @@ class App extends Component {
     this.setState({ term: event.target.value });
   };
 
+  loading = (loading) => {
+    if(loading){
+      this.setState({loading: true});
+    } else {
+      this.setState({loading: false});
+    }
+  }
+
   handleSubmit = async() => {
     // if(event){event.preventDefault();}
     const api_key = "dc6zaTOxFJmzC";
     let offset = this.state.offset;
     let url = `https://api.giphy.com/v1/gifs/search?q=${
       this.state.term
-    }&api_key=${api_key}&limit=10&offset=${offset}`;
+    }&api_key=${api_key}&limit=${this.state.limit}&offset=${offset}`;
 
     //axios w/promise
     // axios(url)
@@ -48,6 +59,7 @@ class App extends Component {
     //   .catch(e => console.log("error", e));
     
     //axios w/ await
+    this.loading(true);
     try {
       let response = await axios(url);
       //console.log(response.data.data);
@@ -57,9 +69,11 @@ class App extends Component {
         imgArray: response.data.data,
         total_count: response.data.pagination.total_count,
       });
+      
     } catch (e) {
       console.log("error", e);
     }
+    this.loading(false);
   } 
 
   onClickSearch = async() => {
@@ -75,7 +89,7 @@ class App extends Component {
     await this.handleSubmit();
   };
   onClickToPage = async(p) => {
-    await this.setState({ offset: this.state.offset + 10*p , page:this.state.page + 1*p}); 
+    await this.setState({ offset: this.state.offset + this.state.limit * p , page:this.state.page + 1*p}); 
     this.handleSubmit();
   };
 
@@ -103,7 +117,7 @@ class App extends Component {
           minHeight: "100vh"
         }}
       > <div className="">
-        <div className="pa3 white  bg-animate "><h1 className="pa2 dib hover-bg-pink bg-animate">Utterly useless GIF version searcher</h1></div>
+        <div className="pa3 white  bg-animate "><h1 className="pa2 dib hover-bg-pink bg-animate" id="header">Utterly useless GIF version searcher</h1></div>
       </div>
       <div className="pa3"><img autoPlay loop src="https://media2.giphy.com/media/YWAiayVul0JLq/200w.gif?cid=e1bb72ff5c53fbdf6a35435132f2ab73"/></div>
         <div className="pv4">
@@ -116,7 +130,12 @@ class App extends Component {
         
         <div>
           <ul className="ph0">
-            {this.state.imgArray.length === 0 ? (
+            {
+              this.state.loading ? (<div className="fixed w-100 pa5 bg-silver">LOADING</div>) : ("")
+            }
+            { 
+              
+              this.state.imgArray.length === 0 ? (
               this.state.initialized ? <p className="mid-gray pv6">no results</p> : <p className="mid-gray pv6"></p>
             ) : (
               <ImgRender
@@ -139,7 +158,7 @@ class App extends Component {
         </div>
         <div>
           {this.state.initialized
-            ? <PageCounter total_count={this.state.total_count} page={this.state.page} />
+            ? <PageCounter total_count={this.state.total_count} page={this.state.page} limit={this.state.limit} />
             : ""
           }
         </div>

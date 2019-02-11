@@ -30,3 +30,25 @@
     transform: rotate(360deg);
   }
 }
+
+/* header */
+@media screen and (max-width: 30em) {
+  #header {
+    font-size: 1.25em;
+  }
+}
+@media screen and (min-width: 30em) and (max-width:45em) {
+  #header {
+    font-size: 1.5em;
+  }
+}
+@media screen and (min-width: 45em) and (max-width:60em) {
+  #header {
+    font-size: 1.75em;
+  }
+}
+@media screen and (min-width: 60em) {
+  #header {
+    font-size: 2em;
+  }
+}
