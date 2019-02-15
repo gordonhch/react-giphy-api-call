@@ -3,12 +3,10 @@ import axios from "axios";
 
 import "./App.css";
 import "./tachyons.min.css";
-import "./contextMenuStyle.css";
 
-import ImgLoading from "./ImgLoading";
-import ImgRender from "./ImgRender";
-import PageCounter from "./PageCounter";
-
+import ImgLoading from "./ImgLoading/ImgLoading";
+import ImgRender from "./ImgRender/ImgRender";
+import PageCounter from "./PageCounter/PageCounter";
 
 // function handleClick(e, data) {
 //   console.log(data.foo);
@@ -36,6 +34,18 @@ class App extends Component {
   onChange = event => {
     this.setState({ term: event.target.value });
   };
+
+  loadingCheck = () => {
+    if(
+      //if all loaded
+      (this.state.limit===this.state.loaded_count
+      //if all images available (<12) loaded
+      ||this.state.loaded_count===this.state.total_count%this.state.limit
+      //if no results
+      ||this.state.imgArray.length===0)
+      &&this.state.loading===true
+      ) {this.loading(false)}
+  }
 
   loading = (loading) => {
     if(loading){
@@ -77,7 +87,6 @@ class App extends Component {
     } catch (e) {
       console.log("error", e);
     }
-    
   } 
 
   onClickSearch = async() => {
@@ -111,19 +120,8 @@ class App extends Component {
     this.onClickSearch();
   }
 
-  
-
   render() {
-
-    if(
-      //if all loaded
-      (this.state.limit==this.state.loaded_count
-      //if all images available (<12) loaded
-      ||this.state.loaded_count==this.state.total_count%this.state.limit
-      //if no results
-      ||this.state.imgArray.length==0)
-      &&this.state.loading==true
-      ) {this.loading(false)}
+    this.loadingCheck();
 
     return (
       <div
@@ -140,24 +138,20 @@ class App extends Component {
         <div className="pv4">
           <form onSubmit={this.formEnterRelay}>
             <input id="searchBox" className="ph3 pv2 ba br0 bw0 b--white" value={this.state.term} onChange={this.onChange} />
-            
             <button type="button" className="ph3 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" onClick={() => this.onClickSearch()}>Search!</button>
           </form>
         </div>
         
         <div>
           <ul className="ph0">
-            
             {
               this.state.loading&&this.state.limit!=this.state.loaded_count ? (<ImgLoading/>) : ("")
             }
             { 
-              
               this.state.imgArray.length === 0 ? (
               this.state.initialized ? <p className="mid-gray pv6">no results</p> : <p className="mid-gray pv6"></p>
             ) : (
               <ImgRender
-                
                 imgArray={this.state.imgArray}
                 offset={this.state.offset}
                 term={this.state.term}
@@ -186,7 +180,6 @@ class App extends Component {
         <p className="white">Powered by GIPHY.com</p>
         <p>for testing purpose only</p>
         </div>
-        
       </div>
     );
   }

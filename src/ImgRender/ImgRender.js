@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ContextMenu, MenuItem, ContextMenuTrigger, SubMenu } from "react-contextmenu";
-import ImgContextMenu from "./ImgContextMenu";
+import ImgContextMenu from "../ImgContextMenu/ImgContextMenu";
 import './ImgRender.css';
 
 class ImgRender extends Component {

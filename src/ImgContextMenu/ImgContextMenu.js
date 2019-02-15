@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ContextMenu, MenuItem, ContextMenuTrigger, SubMenu } from "react-contextmenu";
+import "./contextMenuStyle.css";
 
 const ImgContextMenu = (handleClick) => (
       <ContextMenu id="some_unique_identifier">
