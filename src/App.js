@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 import "./App.css";
 import "./tachyons.min.css";
@@ -7,6 +6,8 @@ import "./tachyons.min.css";
 import ImgLoading from "./ImgLoading/ImgLoading";
 import ImgRender from "./ImgRender/ImgRender";
 import PageCounter from "./PageCounter/PageCounter";
+
+import handleSubmit from "./handleSubmit";
 
 // function handleClick(e, data) {
 //   console.log(data.foo);
@@ -55,55 +56,23 @@ class App extends Component {
     }
   }
 
-  handleSubmit = async() => {
-    // if(event){event.preventDefault();}
-    const api_key = "dc6zaTOxFJmzC";
-    let offset = this.state.offset;
-    let url = `https://api.giphy.com/v1/gifs/search?q=${
-      this.state.term
-    }&api_key=${api_key}&limit=${this.state.limit}&offset=${offset}`;
 
-    //axios w/promise
-    // axios(url)
-    //   .then(response => {
-    //     console.log(response.data.data);
-    //     this.setState({ imgArray: this.state.imgArray.concat(response.data.data) });
-    //   })
-    //   .catch(e => console.log("error", e));
-    
-    //axios w/ await
-    
-    try {
-      let response = await axios(url);
-      //console.log(response.data.data);
-      console.log(response.data.pagination);
-      this.setState({
-        //imgArray: this.state.imgArray.concat(response.data.data)
-        imgArray: response.data.data,
-        total_count: response.data.pagination.total_count,
-        loaded_count: 0,
-      });
-      this.loading(true);
-    } catch (e) {
-      console.log("error", e);
-    }
-  } 
 
   onClickSearch = async() => {
     if (this.state.previousTerm !== this.state.term) {
       this.setState({ offset: 0 , previousTerm: this.state.term, imgArray: []});
-      await this.handleSubmit();
+      await handleSubmit(this.state,this.setState(),this.loading());
       if (!this.state.initialized) { this.setState({ initialized: true }) };
     }
   };
 
   onClickMore = async () => {
     this.setState({ offset: this.state.offset + 0 }); 
-    await this.handleSubmit();
+    await handleSubmit();
   };
   onClickToPage = async(p) => {
     await this.setState({ offset: this.state.offset + this.state.limit * p , page:this.state.page + 1*p}); 
-    this.handleSubmit();
+    handleSubmit();
   };
 
   navBtn = (text, nav) => {
