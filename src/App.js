@@ -7,6 +7,7 @@ import "./tachyons.min.css";
 import ImgLoading from "./ImgLoading/ImgLoading";
 import ImgRender from "./ImgRender/ImgRender";
 import PageCounter from "./PageCounter/PageCounter";
+import formEnterRelay from "./formEnterRelay";
 
 // function handleClick(e, data) {
 //   console.log(data.foo);
@@ -31,11 +32,16 @@ class App extends Component {
     };
   }
 
-  onChange = event => {
-    this.setState({ term: event.target.value });
-  };
+// onChangeHandler = () => {
+//   this.setState(onChange());
+// }
 
-  loadingCheck = () => {
+  // onChange = event => {
+  //   { term: event.target.value };
+  // };
+
+  loadingCheck = (props) => {
+
     if(
       //if all loaded
       (this.state.limit===this.state.loaded_count
@@ -115,13 +121,11 @@ class App extends Component {
     )
   }
 
-  formEnterRelay = (e) => {
-    e.preventDefault();
-    this.onClickSearch();
-  }
 
   render() {
     this.loadingCheck();
+
+    formEnterRelay();
 
     return (
       <div
@@ -136,7 +140,7 @@ class App extends Component {
       </div>
       <div className="pa3"><img autoPlay loop src="https://media2.giphy.com/media/YWAiayVul0JLq/200w.gif?cid=e1bb72ff5c53fbdf6a35435132f2ab73"/></div>
         <div className="pv4">
-          <form onSubmit={this.formEnterRelay}>
+          <form onSubmit={formEnterRelay}>
             <input id="searchBox" className="ph3 pv2 ba br0 bw0 b--white" value={this.state.term} onChange={this.onChange} />
             <button type="button" className="ph3 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" onClick={() => this.onClickSearch()}>Search!</button>
           </form>
