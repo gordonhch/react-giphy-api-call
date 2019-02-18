@@ -91,6 +91,8 @@ class App extends Component {
     this.onClickSearch();
   }
 
+  componentDidUpdate() {}
+
   render() {
     this.loadingCheck();
 

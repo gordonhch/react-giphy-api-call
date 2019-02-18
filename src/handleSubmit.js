@@ -4,7 +4,7 @@ const handleSubmit = async(props, handleSetState, loading) => {
     let state = props;
     // if(event){event.preventDefault();}
     const api_key = "dc6zaTOxFJmzC";
-    console.log(state);
+    //console.log(state);
     let offset = state.offset;
     let url = `https://api.giphy.com/v1/gifs/search?q=${
       state.term
