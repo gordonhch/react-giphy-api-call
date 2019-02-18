@@ -1,9 +1,10 @@
 import axios from "axios";
-const handleSubmit = async(props, setState, loading) => {
-    console.log(props);
-    let {state} = props;
+
+const handleSubmit = async(props, handleSetState, loading) => {
+    let state = props;
     // if(event){event.preventDefault();}
     const api_key = "dc6zaTOxFJmzC";
+    console.log(state);
     let offset = state.offset;
     let url = `https://api.giphy.com/v1/gifs/search?q=${
       state.term
@@ -22,8 +23,9 @@ const handleSubmit = async(props, setState, loading) => {
     try {
       let response = await axios(url);
       //console.log(response.data.data);
-      console.log(response.data.pagination);
-      setState({
+      //console.log(response.data.pagination);
+      //console.log(handleSetState);
+      handleSetState({
         //imgArray: state.imgArray.concat(response.data.data)
         imgArray: response.data.data,
         total_count: response.data.pagination.total_count,

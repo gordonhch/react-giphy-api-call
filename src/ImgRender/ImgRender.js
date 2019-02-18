@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { ContextMenu, MenuItem, ContextMenuTrigger, SubMenu } from "react-contextmenu";
+import { ContextMenuTrigger } from "react-contextmenu";
+// { ContextMenu, MenuItem, ContextMenuTrigger, SubMenu } 
 import ImgContextMenu from "../ImgContextMenu/ImgContextMenu";
 import './ImgRender.css';
 
@@ -64,7 +65,7 @@ class ImgRender extends Component {
     
   
     render() {
-      let { imgArray, term, offset,loadComplete } = this.props;
+      let { imgArray, term, loadComplete } = this.props; //{ imgArray, term, offset,loadComplete }
       // console.log(typeof handleClick);
       return <div className="ImgRender">
           {imgArray.map((item, index) => (

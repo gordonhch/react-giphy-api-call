@@ -6,9 +6,7 @@ import "./tachyons.min.css";
 import ImgLoading from "./ImgLoading/ImgLoading";
 import ImgRender from "./ImgRender/ImgRender";
 import PageCounter from "./PageCounter/PageCounter";
-
 import handleSubmit from "./handleSubmit";
-
 // function handleClick(e, data) {
 //   console.log(data.foo);
 // }
@@ -30,6 +28,10 @@ class App extends Component {
       initialized: false,
       loading: false,
     };
+  }
+
+  handleSetState = (props) => {
+    this.setState(props);
   }
 
   onChange = event => {
@@ -60,8 +62,8 @@ class App extends Component {
 
   onClickSearch = async() => {
     if (this.state.previousTerm !== this.state.term) {
-      this.setState({ offset: 0 , previousTerm: this.state.term, imgArray: []});
-      await handleSubmit(this.state,this.setState(),this.loading());
+      this.setState({ offset: 0 , page:1, previousTerm: this.state.term, imgArray: []});
+      await handleSubmit(this.state, this.handleSetState, this.loading);
       if (!this.state.initialized) { this.setState({ initialized: true }) };
     }
   };
@@ -72,7 +74,7 @@ class App extends Component {
   };
   onClickToPage = async(p) => {
     await this.setState({ offset: this.state.offset + this.state.limit * p , page:this.state.page + 1*p}); 
-    handleSubmit();
+    handleSubmit(this.state,this.handleSetState,this.loading);
   };
 
   navBtn = (text, nav) => {
@@ -103,7 +105,7 @@ class App extends Component {
       > <div className="">
         <div className="pa3 white  bg-animate "><h1 className="pa2 dib hover-bg-pink bg-animate" id="header">Utterly useless GIF version searcher</h1></div>
       </div>
-      <div className="pa3"><img autoPlay loop src="https://media2.giphy.com/media/YWAiayVul0JLq/200w.gif?cid=e1bb72ff5c53fbdf6a35435132f2ab73"/></div>
+      <div className="pa3"><img autoPlay loop alt="title" src="https://media2.giphy.com/media/YWAiayVul0JLq/200w.gif?cid=e1bb72ff5c53fbdf6a35435132f2ab73"/></div>
         <div className="pv4">
           <form onSubmit={this.formEnterRelay}>
             <input id="searchBox" className="ph3 pv2 ba br0 bw0 b--white" value={this.state.term} onChange={this.onChange} />
@@ -114,7 +116,7 @@ class App extends Component {
         <div>
           <ul className="ph0">
             {
-              this.state.loading&&this.state.limit!=this.state.loaded_count ? (<ImgLoading/>) : ("")
+              this.state.loading&&this.state.limit!==this.state.loaded_count ? (<ImgLoading/>) : ("")
             }
             { 
               this.state.imgArray.length === 0 ? (

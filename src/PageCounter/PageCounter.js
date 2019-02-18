@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
+//, { Component }
 
 const PageCounter = (props) => {
-    console.log(props.page);
+    //console.log(props.page);
     let {page, total_count, limit} = props;
     return(
       <p className="white">Page {page} of {Math.ceil((total_count||0)/limit)} in {total_count} images</p>
