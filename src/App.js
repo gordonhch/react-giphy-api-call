@@ -18,6 +18,7 @@ class App extends Component {
       limit: 12,
       term: "rgb",
       previousTerm: "",
+      loadingMode: "quality",
       img: "",
       imgArray: [],
       offset: 0,
@@ -130,6 +131,7 @@ class App extends Component {
                 imgArray={this.state.imgArray}
                 offset={this.state.offset}
                 term={this.state.term}
+                loadingMode={this.state.loadingMode}
                 loadComplete={()=>this.setState({loaded_count: this.state.loaded_count+1})}
               />
             )}

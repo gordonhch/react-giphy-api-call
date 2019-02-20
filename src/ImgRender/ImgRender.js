@@ -59,11 +59,13 @@ class ImgRender extends Component {
         }
       }
       //console.log(target);
-      
     }
 
-    
-  
+    loadingModeCheck(original, downsampled, small) {
+      let {loadingMode} = this.props;
+      return(loadingMode === 'quality' ? original : loadingMode === 'speed' ? small : downsampled)
+    }
+
     render() {
       let { imgArray, term, loadComplete } = this.props; //{ imgArray, term, offset,loadComplete }
       // console.log(typeof handleClick);
@@ -86,7 +88,7 @@ class ImgRender extends Component {
                 })}
               >
                 <img
-                  src={item.images.fixed_height.url}
+                  src={this.loadingModeCheck(item.images.fixed_height.url, item.images.fixed_height_downsampled.url, item.images.fixed_height_downsampled.url)}
                   height="200"
                   alt={term}
                   style={{ color: "#18181C" }}
