@@ -91,10 +91,12 @@ class App extends Component {
     this.onClickSearch();
   }
 
-  componentDidUpdate() {}
+  componentDidUpdate() {
+    this.loadingCheck();
+  }
 
   render() {
-    this.loadingCheck();
+    
 
     return (
       <div
