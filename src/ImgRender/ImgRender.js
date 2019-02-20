@@ -88,7 +88,7 @@ class ImgRender extends Component {
                 })}
               >
                 <img
-                  src={this.loadingModeCheck(item.images.fixed_height.url, item.images.fixed_height_downsampled.url, item.images.fixed_height_downsampled.url)}
+                  src={this.loadingModeCheck(item.images.fixed_height.webp, item.images.fixed_height_downsampled.webp, item.images.fixed_height_downsampled.webp)}
                   height="200"
                   alt={term}
                   style={{ color: "#18181C" }}

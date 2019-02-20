@@ -110,7 +110,7 @@ class App extends Component {
       > <div className="">
         <div className="pa3 white  bg-animate "><h1 className="pa2 dib hover-bg-pink bg-animate" id="header">Utterly useless GIF version searcher</h1></div>
       </div>
-      <div className="pa3"><img autoPlay loop alt="title" src="https://media2.giphy.com/media/YWAiayVul0JLq/200w.gif?cid=e1bb72ff5c53fbdf6a35435132f2ab73"/></div>
+      <div className="pa3"><img autoPlay loop alt="title" src="https://media2.giphy.com/media/YWAiayVul0JLq/200w.webp?cid=e1bb72ff5c53fbdf6a35435132f2ab73"/></div>
         <div className="pv4">
           <form onSubmit={this.formEnterRelay}>
             <input id="searchBox" className="ph3 pv2 ba br0 bw0 b--white" value={this.state.term} onChange={this.onChange} />
