@@ -1,4 +1,5 @@
 import React from "react";
+import LottieControl from './lottieAnimation';
 //, { Component }
 
 const ImgLoading = () => (
@@ -9,10 +10,10 @@ const ImgLoading = () => (
         position: "fixed",         
         top: "0",
         left: "0",  
-        backgroundColor: "rgba(0,0,0,0.35)",
+        backgroundColor: "rgba(0,0,0,0.50)",
 }}
     >
-     LOADING
+     <h1 className="gray">LOADING</h1><LottieControl/>
     </div>
 )
 export default ImgLoading;

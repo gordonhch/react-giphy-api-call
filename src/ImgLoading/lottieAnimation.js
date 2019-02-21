@@ -10,15 +10,15 @@ export default class LottieControl extends React.Component {
   }
 
   render() {
-    const buttonStyle = {
-      display: 'block',
-      margin: '10px auto'
-    };
+    // const buttonStyle = {
+    //   display: 'block',
+    //   margin: '10px auto'
+    // };
 
     const defaultOptions = {
       loop: true,
       autoplay: true, 
-      setSpeed: 2,
+      
       animationData: animationData,
       rendererSettings: {
         preserveAspectRatio: 'xMidYMid slice'
@@ -29,8 +29,8 @@ export default class LottieControl extends React.Component {
 
     return <div>
       <Lottie options={defaultOptions}
-              height={400}
-              width={400}
+              height={600}
+              width={600}
               isStopped={this.state.isStopped}
               isPaused={this.state.isPaused}/>
       {/* <button style={buttonStyle} onClick={() => this.setState({isStopped: true})}>stop</button>
