@@ -29,6 +29,7 @@ const handleSubmit = async(props, handleSetState, loading) => {
         //imgArray: state.imgArray.concat(response.data.data)
         imgArray: response.data.data,
         total_count: response.data.pagination.total_count,
+        total_page: Math.ceil((response.data.pagination.total_count||0)/state.limit),
         loaded_count: 0,
       });
       loading(true);

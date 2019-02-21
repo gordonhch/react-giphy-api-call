@@ -23,6 +23,7 @@ class App extends Component {
       imgArray: [],
       offset: 0,
       total_count: 0,
+      total_page: 0,
       loaded_count: 0,
       page: 1,
       
@@ -40,11 +41,12 @@ class App extends Component {
   };
 
   loadingCheck = () => {
+    //console.log(this.state.loading) //check how many re-renders happen : 4
     if(
       //if all loaded
       (this.state.limit===this.state.loaded_count
-      //if all images available (<12) loaded
-      ||this.state.loaded_count===this.state.total_count%this.state.limit
+      //all images available (<12) loaded
+      || (this.state.total_page === this.state.page && this.state.loaded_count===(this.state.total_count%this.state.limit))
       //if no results
       ||this.state.imgArray.length===0)
       &&this.state.loading===true
@@ -148,7 +150,7 @@ class App extends Component {
         </div>
         <div>
           {this.state.initialized
-            ? <PageCounter total_count={this.state.total_count} page={this.state.page} limit={this.state.limit} />
+            ? <PageCounter total_count={this.state.total_count} total_page={this.state.total_page} page={this.state.page} limit={this.state.limit} />
             : ""
           }
         </div>
