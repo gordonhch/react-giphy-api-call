@@ -31,6 +31,7 @@ export default class LottieControl extends React.Component {
       <Lottie options={defaultOptions}
               height={600}
               width={600}
+              speed={2}
               isStopped={this.state.isStopped}
               isPaused={this.state.isPaused}/>
       {/* <button style={buttonStyle} onClick={() => this.setState({isStopped: true})}>stop</button>
