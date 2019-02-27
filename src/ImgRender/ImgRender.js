@@ -70,7 +70,10 @@ class ImgRender extends Component {
       let { imgArray, term, loadComplete } = this.props; //{ imgArray, term, offset,loadComplete }
       // console.log(typeof handleClick);
       return <div className="ImgRender">
-          {imgArray.map((item, index) => (
+        {imgArray.map((item, index) => {
+          let {images} = item;
+          let {fixed_height, fixed_height_downsampled, fixed_height_still} = images;
+          return (
             <a
               href={item.images.original.url}
               target="blank"
@@ -88,7 +91,7 @@ class ImgRender extends Component {
                 })}
               >
                 <img
-                  src={this.loadingModeCheck(item.images.fixed_height.url, item.images.fixed_height_downsampled.url, item.images.fixed_height_still.url, item.images.fixed_height.webp)}
+                  src={this.loadingModeCheck(fixed_height.url, fixed_height_downsampled.url, fixed_height_still.url, fixed_height.webp)}
                   height="200"
                   alt={term}
                   style={{ color: "#18181C" }}
@@ -96,7 +99,8 @@ class ImgRender extends Component {
                 />
               </ContextMenuTrigger>
             </a>
-          ))}
+          )
+        })}
           {ImgContextMenu(this.handleClick)};
         </div>;
     }

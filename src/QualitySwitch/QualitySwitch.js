@@ -13,14 +13,11 @@ const Switches = (props) => {
     const style = 'pa2 br0 bw0';
     const styleSelected = 'pa2 br0 bw0 bg-silver';
     let styleSelector;
-    
     return (
         buttons.map((name, index) => {
             
             (props.loadingMode === name) ? 
                 styleSelector = styleSelected : styleSelector = style;
-                
-            
             return (
                 <label
                     key={index}>
