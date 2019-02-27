@@ -6,6 +6,7 @@ import "./tachyons.min.css";
 import ImgLoading from "./ImgLoading/ImgLoading";
 import ImgRender from "./ImgRender/ImgRender";
 import PageCounter from "./PageCounter/PageCounter";
+import QualitySwitch from "./QualitySwitch/QualitySwitch";
 import handleSubmit from "./handleSubmit";
 // function handleClick(e, data) {
 //   console.log(data.foo);
@@ -18,7 +19,7 @@ class App extends Component {
       limit: 12,
       term: "rgb",
       previousTerm: "",
-      loadingMode: "quality",
+      loadingMode: "Quality",
       img: "",
       imgArray: [],
       offset: 0,
@@ -110,8 +111,10 @@ class App extends Component {
           minHeight: "100vh"
         }}
       > <div className="">
-        <div className="pa3 white  bg-animate "><h1 className="pa2 dib hover-bg-pink bg-animate" id="header">Utterly useless GIF version searcher</h1></div>
-      </div>
+          <div className="pt6 pb3 ph3 white  bg-animate "><h1 className="pa2 dib hover-bg-pink bg-animate" id="header">Utterly useless GIF version searcher</h1></div>
+        </div>
+        <QualitySwitch loadingMode={this.state.loadingMode} handleSetState={this.handleSetState}/>
+
       <div className="pa3"><img autoPlay loop alt="title" src="https://media2.giphy.com/media/YWAiayVul0JLq/200w.webp?cid=e1bb72ff5c53fbdf6a35435132f2ab73"/></div>
         <div className="pv4">
           <form onSubmit={this.formEnterRelay}>

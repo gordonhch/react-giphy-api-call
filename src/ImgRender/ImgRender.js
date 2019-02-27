@@ -61,9 +61,9 @@ class ImgRender extends Component {
       //console.log(target);
     }
 
-    loadingModeCheck(original, downsampled, small) {
+    loadingModeCheck(original, downsampled, small, webp) {
       let {loadingMode} = this.props;
-      return(loadingMode === 'quality' ? original : loadingMode === 'speed' ? small : downsampled)
+      return(loadingMode === 'Quality' ? original : loadingMode === 'Speed' ? downsampled : loadingMode === 'Freeze' ? small : webp)
     }
 
     render() {
@@ -88,7 +88,7 @@ class ImgRender extends Component {
                 })}
               >
                 <img
-                  src={this.loadingModeCheck(item.images.fixed_height.webp, item.images.fixed_height_downsampled.webp, item.images.fixed_height_downsampled.webp)}
+                  src={this.loadingModeCheck(item.images.fixed_height.url, item.images.fixed_height_downsampled.url, item.images.fixed_height_still.url, item.images.fixed_height.webp)}
                   height="200"
                   alt={term}
                   style={{ color: "#18181C" }}
