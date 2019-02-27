@@ -83,7 +83,7 @@ class App extends Component {
 
   navBtn = (text, nav) => {
     return(
-      <a href="#searchBox" className="ph5 pv2 ba br0 mh1 b--dark-gray no-underline white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" 
+      <a href="#resultsAnchor" className="ph5 pv2 ba br0 mh1 b--dark-gray no-underline white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" 
               onClick={() => this.onClickToPage(nav)}>
                 {text}
               </a>
@@ -106,7 +106,7 @@ class App extends Component {
       <div
         className="App"
         style={{
-          backgroundColor: "#18181C",
+          backgroundColor: "#18181C", 
           width: "100%",
           minHeight: "100vh"
         }}
@@ -119,7 +119,7 @@ class App extends Component {
         <div className="pv4">
           <form onSubmit={this.formEnterRelay}>
             <input id="searchBox" className="ph3 pv2 ba br0 bw0 b--white" value={this.state.term} onChange={this.onChange} />
-            <button type="button" className="ph3 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" onClick={() => this.onClickSearch()}>Search!</button>
+            <button  id="resultsAnchor" type="button" className="ph3 pv2 ba br0 b--dark-gray white hover-white bg-dark-gray hover-bg-mid-gray bg-animate" onClick={() => this.onClickSearch()}>Search!</button>
           </form>
         </div>
         
